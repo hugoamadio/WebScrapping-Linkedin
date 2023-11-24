@@ -1,16 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time as time
 import tkinter as tk
 
 #-------------------------------------------------------------------------------------------------------
 
-def logar(email, senha):
-    chrome_driver_path = 'C:/Users/hugo_/OneDrive/Área de Trabalho/chromedriver_win32/chromedriver.exe'
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(options=options)
-    driver.get('https://www.linkedin.com')
+def pesquisa(driver):
+    inputBox = driver.find_element(By.CLASS_NAME, 'search-global-typeahead__input')
+    print("Inputbox encontrada")
+    time.sleep(1)
+    inputBox.send_keys("Tech Recruiter")
+    time.sleep(1)
+    inputBox.send_keys(Keys.ENTER)
+    time.sleep(15)
+
+def logar(email, senha, driver):
     time.sleep(5)
     print("Site Carregado")
     time.sleep(1)
@@ -24,14 +30,19 @@ def logar(email, senha):
     time.sleep(1)
     btnEntrar = driver.find_element(By.CSS_SELECTOR, '.btn-md.btn-primary.flex-shrink-0.cursor-pointer.sign-in-form__submit-btn--full-width').click()
     print("Logando com sucesso!")
-    time.sleep(60)
+    time.sleep(1)
 
 def iniciar():
     email = entry_email.get()
     senha = entry_senha.get()
     janela.destroy()
-    logar(email, senha)
-    time.sleep(60)
+    chrome_driver_path = 'C:/Users/hugo_/OneDrive/Área de Trabalho/chromedriver_win32/chromedriver.exe'
+    options = webdriver.ChromeOptions()
+    driver = webdriver.Chrome(options=options)
+    driver.get('https://www.linkedin.com')
+    logar(email, senha, driver)
+    time.sleep(1)
+    pesquisa(driver)
 
 #-------------------------------------------------------------------------------------------------------
 
